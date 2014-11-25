@@ -6,13 +6,13 @@ ntr = size(tr_images, 3);
 inputs_train = reshape(tr_images, [1024, ntr]);
 targets_train = full(ind2vec(tr_labels'));
 
-hidden_units = [1:15,20,25,30,40,50];
+hidden_units = [1:15,20,30,40,50];
 iterations = 5;
-results = zeros(iterations, size(hidden_units,1));
-for h = hidden_units
-	% neural network with h hidden units
-	for i = iterations
-		net = patternnet(h);
+results = zeros(iterations, size(hidden_units,2));
+for h = 1:size(hidden_units,2)
+	% neural network with some hidden units
+	for i = 1:iterations
+		net = patternnet(hidden_units(h));
 		[net,tr] = train(net, double(inputs_train), double(targets_train));
 		testX = inputs_train(:,tr.testInd);
 		testT = targets_train(:,tr.testInd);
@@ -22,12 +22,12 @@ for h = hidden_units
 		results(i,h) = c;
 	end
 	mean_results = mean(results);
-	fprintf('Number of Hidden Units: %d\n', h);
+	fprintf('Number of Hidden Units: %d\n', hidden_units(h));
 	fprintf('Average Percentage Correct Classification   : %f%%\n', 100*(1-mean_results(h)));
 	fprintf('Average Percentage Incorrect Classification : %f%%\n', 100*mean_results(h));
 end
 
-[best_average_val, best_h_index] = max(mean_results);
+[best_average_val, best_h_index] = min(mean_results);
 net = patternnet(hidden_units(best_h_index));
 [net,tr] = train(net, double(inputs_train), double(targets_train));
 testX = inputs_train(:,tr.testInd);
