@@ -6,37 +6,22 @@ ntr = size(tr_images, 3);
 inputs_train = reshape(tr_images, [1024, ntr]);
 targets_train = full(ind2vec(tr_labels'));
 
-hidden_units = [1:15,20,30,40,50];
-iterations = 5;
-results = zeros(iterations, size(hidden_units,2));
-for h = 1:size(hidden_units,2)
-	% neural network with some hidden units
-	for i = 1:iterations
-		net = patternnet(hidden_units(h));
-		[net,tr] = train(net, double(inputs_train), double(targets_train));
-		testX = inputs_train(:,tr.testInd);
-		testT = targets_train(:,tr.testInd);
-		testY = net(testX);
-		%predictions = vec2ind(testY);
-		[c,cm] = confusion(testT,testY);
-		results(i,h) = c;
-	end
-	mean_results = mean(results);
-	fprintf('Number of Hidden Units: %d\n', hidden_units(h));
-	fprintf('Average Percentage Correct Classification   : %f%%\n', 100*(1-mean_results(h)));
-	fprintf('Average Percentage Incorrect Classification : %f%%\n', 100*mean_results(h));
+c = 0.2255; % Best value we have so far. Note: It's incorrect %.
+hidden_u = [55]; % Array of hidden units we want to test.
+h = 1; % Iterator
+while c >= 0.2255 && h < size(hidden_u,2) + 1
+	net = patternnet(hidden_u(h));
+	[net,tr] = train(net, double(inputs_train), double(targets_train));
+	testX = inputs_train(:,tr.testInd);
+	testT = targets_train(:,tr.testInd);
+	testY = net(testX);
+	%predictions = vec2ind(testY);
+	[c,cm] = confusion(testT,testY);
+    fprintf('Number of Hidden Units: %d\n', hidden_u(h));
+	fprintf('Percentage Correct Classification   : %f%%\n', 100*(1-c));
+	fprintf('Percentage Incorrect Classification : %f%%\n', 100*c);
+    h = h + 1;
 end
-
-[best_average_val, best_h_index] = min(mean_results);
-net = patternnet(hidden_units(best_h_index));
-[net,tr] = train(net, double(inputs_train), double(targets_train));
-testX = inputs_train(:,tr.testInd);
-testT = targets_train(:,tr.testInd);
-testY = net(testX);
-%predictions = vec2ind(testY);
-[c,cm] = confusion(testT,testY);
-fprintf('Percentage Correct Classification   : %f%%\n', 100*(1-c));
-fprintf('Percentage Incorrect Classification : %f%%\n', 100*c);
 
 % public test data
 load public_test_images.mat
