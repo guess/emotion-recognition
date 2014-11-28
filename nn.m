@@ -7,7 +7,7 @@ inputs_train = reshape(tr_images, [1024, ntr]);
 targets_train = full(ind2vec(tr_labels'));
 
 c = 0.2255; % Best value we have so far. Note: It's incorrect %.
-hidden_u = [55]; % Array of hidden units we want to test.
+hidden_u = [65, 75, 85, 95]; % Array of hidden units we want to test.
 h = 1; % Iterator
 while c >= 0.2255 && h < size(hidden_u,2) + 1
 	net = patternnet(hidden_u(h));

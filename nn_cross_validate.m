@@ -2,9 +2,11 @@
 % If tr_identity is provided, uses that to do the split of the training images
 % If tr_identity is not provided uses random permutations (disregards similar faces, bias in the training data)
 
-function mean_acc = cross_validate(K, tr_images, tr_labels, nfold, tr_identity)
+function mean_acc = nn_cross_validate(K, tr_images, tr_labels, nfold, tr_identity)
 
 ntr = size(tr_images, 3);
+inputs_train = reshape(tr_images, [1024, ntr]);
+targets_train = full(ind2vec(tr_labels'));
 
 if (~exist('tr_identity', 'var'))
   % random permutation (disregards similar faces)
@@ -48,12 +50,14 @@ end
 for i=1:nfold
   traini_ids = [foldids{[1:(i-1) (i+1):nfold]}];
   testi_ids = foldids{i};
+  
+  ids = [traini_ids, testi_ids];
 
-  predi = knn_classifier(K, tr_images(:, :, traini_ids), tr_labels(traini_ids), tr_images(:, :, testi_ids));
+  [predi, acc(i)] = nn_classifier(K, tr_images(:, :, ids), tr_labels(ids));
   
   % display([predi'; tr_labels(testi_ids)']);
   
-  acc(i) = sum(predi == tr_labels(testi_ids))/length(foldids{i});
+  %acc(i) = sum(predi' == tr_labels(testi_ids))/length(foldids{i});
 end
 
 mean_acc = mean(acc);
