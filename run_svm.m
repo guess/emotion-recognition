@@ -1,7 +1,13 @@
 load labeled_images.mat
 load public_test_images.mat
 
-prediction = svm_classifier(tr_images, tr_labels, public_test_images);
+ntr = size(tr_images, 3);
+inputs_train = reshape(tr_images, [1024, ntr]);
+
+ntest = size(test_images, 3);
+inputs_test = reshape(test_images, [1024, ntest]);
+
+prediction = svm_classifier(inputs_train, tr_labels, inputs_test);
 prediction = [prediction; zeros(1253-length(prediction), 1)];
 
 fid = fopen('svm_prediction.csv', 'w');
