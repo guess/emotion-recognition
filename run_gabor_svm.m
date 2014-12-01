@@ -1,8 +1,10 @@
 load labeled_images.mat
 load public_test_images.mat
+load hidden_test_images.mat
 
 nfeat = 2560;   % number of gabor features
 ga = gaborFilterBank(5, 8, 39, 39);
+test_images = cat(3, public_test_images, hidden_test_images);
 
 % Extract Gabor features from the training data
 ntrain = size(tr_images, 3);
@@ -12,10 +14,10 @@ for i=1:ntrain
 end
 
 % Extract Gabor features from the test data
-ntest = size(public_test_images, 3);
+ntest = size(test_images, 3);
 feat_test = zeros(nfeat, ntest);
 for i=1:ntest
-    feat_test(:,i) = gaborFeatures(public_test_images(:,:,i), ga, 4, 4);
+    feat_test(:,i) = gaborFeatures(test_images(:,:,i), ga, 4, 4);
 end
 
 % Run SVM on the Gabor features
