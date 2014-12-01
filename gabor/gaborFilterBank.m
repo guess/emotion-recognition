@@ -73,20 +73,20 @@ end
 
 %% Show Gabor filters
 
-% Show magnitudes of Gabor filters:
-figure('NumberTitle','Off','Name','Magnitudes of Gabor filters');
-for i = 1:u
-    for j = 1:v        
-        subplot(u,v,(i-1)*v+j);        
-        imshow(abs(gaborArray{i,j}),[]);
-    end
-end
-
-% Show real parts of Gabor filters:
-figure('NumberTitle','Off','Name','Real parts of Gabor filters');
-for i = 1:u
-    for j = 1:v        
-        subplot(u,v,(i-1)*v+j);        
-        imshow(real(gaborArray{i,j}),[]);
-    end
-end
+% % Show magnitudes of Gabor filters:
+% figure('NumberTitle','Off','Name','Magnitudes of Gabor filters');
+% for i = 1:u
+%     for j = 1:v        
+%         subplot(u,v,(i-1)*v+j);        
+%         imshow(abs(gaborArray{i,j}),[]);
+%     end
+% end
+% 
+% % Show real parts of Gabor filters:
+% figure('NumberTitle','Off','Name','Real parts of Gabor filters');
+% for i = 1:u
+%     for j = 1:v        
+%         subplot(u,v,(i-1)*v+j);        
+%         imshow(real(gaborArray{i,j}),[]);
+%     end
+% end
