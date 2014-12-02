@@ -23,11 +23,6 @@ fprintf('Number of Hidden Units: %d\n', num_hiddens);
 fprintf('Percentage Correct Classification   : %f%%\n', c);
 fprintf('Percentage Incorrect Classification : %f%%\n', 100-c);
 
-CVMdl = prediction;
-CMdl = CVMdl.Trained{4};           % Extract trained, compact classifier
-test_prediction = predict(CMdl, test_images');
-
-
 if ntest > 0
     test_results = net(test_images);
     test_prediction = vec2ind(test_results);
