@@ -4,10 +4,10 @@ function [test_prediction] = knn_classifier(KNN, tr_images, tr_labels, test_imag
 % Reshape into vectors
 ntr = size(tr_images, 3);
 ntest = size(test_images, 3);
-h = size(tr_images,1);
-w = size(tr_images,2);
-tr_images = double(reshape(tr_images, [h*w, ntr]));
-test_images = double(reshape(test_images, [h*w, ntest]));
+% h = size(tr_images,1);
+% w = size(tr_images,2);
+% tr_images = double(reshape(tr_images, [h*w, ntr]));
+% test_images = double(reshape(test_images, [h*w, ntest]));
 
 % Subtract mean for each image
 tr_mu = mean(tr_images);

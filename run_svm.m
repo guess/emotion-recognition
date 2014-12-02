@@ -31,14 +31,14 @@ addpath svm
 prediction = svm_classifier(inputs_train, tr_labels, inputs_test);
 rmpath svm
 
-%% Print results
-
-% Fill in the test labels with 0 if necessary
-if (length(prediction) < 1253)
-  prediction = [prediction; zeros(1253-length(prediction), 1)];
-end
-
-% Save results to file
+% %% Print results
+% 
+% % Fill in the test labels with 0 if necessary
+% if (length(prediction) < 1253)
+%   prediction = [prediction; zeros(1253-length(prediction), 1)];
+% end
+% 
+% % Save results to file
 fid = fopen('svm_prediction.csv', 'w');
 fprintf(fid,'Id,Prediction\n');
 for i=1:length(prediction)
